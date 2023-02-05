@@ -10,16 +10,12 @@ const studentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    subjects: [
+    courses: [
       {
-        name: { type: String },
-        points_obtained: { type: Number },
+        type: ObjectId,
+        ref: "Course",
       },
     ],
-    department: {
-      name: { type: String },
-      location: { type: String },
-    },
   },
   // createdAt
   { timestamps: true }

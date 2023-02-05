@@ -1,12 +1,12 @@
 const Student = require("../models/Student");
 
 // create new student
-// POST /api/student
+// POST /api/students/create
 exports.create = async (req, res) => {
   try {
     const student = await new Student({
       ...req.body,
-    }).save();
+    });
     res.json(student);
   } catch (err) {
     console.log(err);
@@ -22,13 +22,13 @@ exports.listAllStudents = async (req, res) => {
 };
 
 // get single student based on id
-// GET /api/student/:studentId
+// GET /api/students/:studentId
 exports.singleStudent = async (req, res) => {
   return res.json(req.student);
 };
 
 // update student
-// PUT /api/student/:studentId
+// PUT /api/students/:studentId
 exports.update = async (req, res) => {
   const student = req.student;
   await student.save((err, data) => {
@@ -42,7 +42,7 @@ exports.update = async (req, res) => {
 };
 
 // delete student
-// DELETE /api/student/:studentId
+// DELETE /api/students/:studentId
 exports.remove = async (req, res) => {
   const student = req.student;
   await student.remove((err, data) => {
@@ -61,10 +61,10 @@ exports.remove = async (req, res) => {
 
 // get student by id param
 exports.studentById = (req, res, next, id) => {
-  Student.findById(id).exec((err, student) => {
+  Student.findById({}).exec((err, student) => {
     if (err || !student) {
       return res.status(400).json({
-        error: "Student no found",
+        error: "Student not found",
       });
     }
     req.student = student;
