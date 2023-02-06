@@ -1,7 +1,5 @@
 const Course = require("../models/course");
 
-// create new course
-// POST /api/courses
 exports.create = async (req, res) => {
   try {
     const course = await new Course({
@@ -14,21 +12,11 @@ exports.create = async (req, res) => {
   }
 };
 
-// get all courses
-// GET /api/courses
 exports.listAllCourses = async (req, res) => {
   const allCourses = await Course.sort({ createdAt: -1 }).exec();
   res.json(allCourses);
 };
 
-// get single course based on id
-// GET /api/student/:studentId
-exports.singleStudent = async (req, res) => {
-  return res.json(req.student);
-};
-
-// update course
-// PUT /api/course/:courseId
 exports.update = async (req, res) => {
   const course = req.course;
   course.name = req.body.name;
@@ -43,8 +31,6 @@ exports.update = async (req, res) => {
   });
 };
 
-// get single course based on id
-// GET /api/courses/:courseId
 exports.singleCourse = async (req, res) => {
   return res.json(req.course);
 };
