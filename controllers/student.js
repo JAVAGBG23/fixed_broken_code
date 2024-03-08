@@ -4,7 +4,8 @@ exports.create = async (req, res) => {
   try {
     const student = await new Student({
       ...req.body,
-    });
+      // fel
+    }).save();
     res.json(student);
   } catch (err) {
     console.log(err);
@@ -13,7 +14,8 @@ exports.create = async (req, res) => {
 };
 
 exports.listAllStudents = async (req, res) => {
-  const allStudents = await Student.find({}).sort({ createdAt: -1 }).exec();
+  // ändra bara
+  const allStudents = await Student.find({}).exec();
   res.json(allStudents);
 };
 
@@ -50,7 +52,8 @@ exports.remove = async (req, res) => {
 // PARAM METHODS
 // get student by id param
 exports.studentById = (req, res, next, id) => {
-  Student.findById({}).exec((err, student) => {
+  // fel
+  Student.findById(id).exec((err, student) => {
     if (err || !student) {
       return res.status(400).json({
         error: "Student not found",

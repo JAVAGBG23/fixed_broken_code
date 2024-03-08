@@ -13,23 +13,51 @@ exports.create = async (req, res) => {
 };
 
 exports.listAllCourses = async (req, res) => {
-  const allCourses = await Course.sort({ createdAt: -1 }).exec();
+  // fel
+  const allCourses = await Course.find({}).sort({ createdAt: -1 }).exec();
   res.json(allCourses);
 };
 
 exports.update = async (req, res) => {
-  const course = req.course;
-  course.name = req.body.name;
-  course.category = req.body.category;
-  await course.save((err, data) => {
-    if (err) {
-      return res.status(400).json({
-        message: "Error updating course",
-      });
+  try {
+    const { id } = req.params;
+    const course = await Course.findOne({ id }).exec();
+
+    // fel
+    if (!course) {
+      return res.status(400).send("Course not found");
+    } else {
+      const updated = await Course.findOneAndUpdate({ id }, req.body, {
+        new: true,
+      }).exec();
+
+      res.json(updated);
     }
-    res.json(data);
-  });
+  } catch (err) {
+    console.log(err);
+    return res.status(400).send(err.message);
+  }
 };
+
+/*exports.update = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const course = await Course.findOne({ id }).exec();
+
+    if (course) {
+      return res.status(400).send("Course not found");
+    } else {
+      const updated = await Course.findOneAndUpdate({ id }, req.body, {
+        new: true,
+      }).exec();
+
+      res.json(updated);
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(400).send(err.message);
+  }
+}; */
 
 exports.singleCourse = async (req, res) => {
   return res.json(req.course);

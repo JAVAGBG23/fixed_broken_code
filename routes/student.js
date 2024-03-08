@@ -13,7 +13,8 @@ const {
 router.post("/create", create);
 
 router.get("/all", listAllStudents);
-
+//router.get("/studentId", singleStudent);
+//fel
 router.get("/:studentId", singleStudent);
 
 router.put("/:studentId", update);
